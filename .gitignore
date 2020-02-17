@@ -1,2 +1,4 @@
 #ignore desktop files
 .emacs.desktop
+.emacs.desktop.lock
+auto-save-list/
