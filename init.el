@@ -17,7 +17,7 @@
  '(display-line-numbers t)
  '(package-selected-packages
    (quote
-    (irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex)))
+    (doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex)))
  '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -26,6 +26,12 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "#2d3743" :foreground "#e1e1e0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :family "Inconsolata")))))
 
+
+;;try using a doom theme
+(load-theme 'doom-gruvbox t)
+
+;;load paren-peek to see matching parentheses offscreen
+(load-file "~/.emacs.d/paren-peek.el")
 
 ;;package stuff from petersen
 
