@@ -17,7 +17,7 @@
  '(display-line-numbers t)
  '(package-selected-packages
    (quote
-    (doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex)))
+    (company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex)))
  '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -98,7 +98,7 @@
 	     (add-hook 'python-mode-hook 'jedi:setup))
 
 (use-package company-reftex
-  :after latex company
+  :after latex auctex company
   :ensure t
   :config
   (add-to-list 'company-backends 'company-reftex-citations)
@@ -106,6 +106,13 @@
   ;(add-hook 'LaTeX-mode-hook 'company-reftex-citations)
   ;(add-hook 'LaTeX-mode-hook 'company-reftex-labels)
   )
+
+
+(use-package company-auctex
+  :after latex auctex company
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-auctex))
 
 (defun my/python-mode-hook ()
   (add-to-list 'company-backends 'company-jedi))
