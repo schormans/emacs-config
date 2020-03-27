@@ -17,7 +17,7 @@
  '(display-line-numbers t)
  '(package-selected-packages
    (quote
-    (zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex)))
+    (beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex)))
  '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -130,4 +130,6 @@
 (setq org-startup-folded nil) ;don't fold everything up by default
 (setq org-startup-truncated nil) ;don't overwrite word wrap setting, tables be damned
 
+;;beacon-mode
 
+(beacon-mode 1) ;enable all the time
