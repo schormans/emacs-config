@@ -17,7 +17,7 @@
  '(display-line-numbers t)
  '(package-selected-packages
    (quote
-    (company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex)))
+    (zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex)))
  '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -118,4 +118,16 @@
   (add-to-list 'company-backends 'company-jedi))
 
 (add-hook 'python-mode-hook 'my/python-mode-hook)
+
+
+;;org-mode configuration
+
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+
+(setq org-log-done t)
+(setq org-startup-folded nil) ;don't fold everything up by default
+(setq org-startup-truncated nil) ;don't overwrite word wrap setting, tables be damned
+
 
