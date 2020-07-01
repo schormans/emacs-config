@@ -30,8 +30,15 @@
 ;;try using a doom theme
 (load-theme 'doom-gruvbox t)
 
+;;Manually load my scripts from ~/.emacs.d/.
+
+(add-to-list 'load-path "~/.emacs.d/mylisp/")
+
+;; SKILL mode
+(load "skill-mode")
 ;;load paren-peek to see matching parentheses offscreen
-(load-file "~/.emacs.d/paren-peek.el")
+					;(load-file "~/.emacs.d/paren-peek.el")
+(load "paren-peek")
 
 ;;package stuff from petersen
 
@@ -137,6 +144,8 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+
 
 
 ;;org-mode configuration
