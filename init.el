@@ -10,14 +10,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(TeX-engine (quote luatex))
+ '(TeX-engine 'luatex)
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(custom-enabled-themes (quote (misterioso)))
+ '(custom-enabled-themes '(misterioso))
  '(display-line-numbers t)
  '(package-selected-packages
-   (quote
-    (company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex)))
+   '(buffer-move company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex))
  '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -46,7 +45,7 @@
       '(("gnu" . "http://elpa.gnu.org/packages/")
 	;;	("marmalade" . "http://marmalade-repo.org/packages/")
 	;;rip in pepperonis marmalade
-	("melpa" . "http://melpa.milkbox.net/packages/")))
+	("melpa" . "http://melpa.org/packages/")))
 
 ;;use-package
 
@@ -161,3 +160,13 @@
 ;;beacon-mode
 
 (beacon-mode 1) ;enable all the time
+
+;;buffer-move keybindings
+
+(require 'buffer-move)
+
+(global-set-key (kbd "<C-S-up>")    'buf-move-up)
+(global-set-key (kbd "<C-S-down>")  'buf-move-down)
+(global-set-key (kbd "<C-S-left>")  'buf-move-left)
+(global-set-key (kbd "<C-S-right>") 'buf-move-right)
+
