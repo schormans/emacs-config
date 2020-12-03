@@ -154,8 +154,10 @@
 (define-key global-map "\C-ca" 'org-agenda)
 
 (setq org-log-done t)
-(setq org-startup-folded nil) ;don't fold everything up by default
+(setq org-startup-folded t) ;fold everything up by default
 (setq org-startup-truncated nil) ;don't overwrite word wrap setting, tables be damned
+
+(add-hook 'org-mode-hook 'org-indent-mode)
 
 ;;beacon-mode
 
