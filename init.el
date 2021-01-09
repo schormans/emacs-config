@@ -77,7 +77,7 @@
       reftex-enable-partial-scans t
       reftex-save-parse-info t
       reftex-use-multiple-selection-buffers t)
-
+(setq font-latex-fontify-script nil) ;don't piss about with super and subscripts.
 
 ;;doom-modeline
 ;;if there are issues with this, do:
@@ -119,7 +119,11 @@
   :config (setq deft-directory "~/ownCloud/deft"
 		deft-extensions '("md" "org" "tex" "txt")
 		deft-recursive t
-		deft-default-extension "org"))
+		deft-default-extension "org"
+		deft-use-filter-string-for-filename t
+		deft-file-naming-rules '((noslash . "-")
+					 (nospace . "-")
+					 (case-fn . downcase))))
 
 (use-package zetteldeft
   :ensure t
@@ -228,8 +232,8 @@
 (setq org-log-done t)
 (setq org-startup-folded t) ;fold everything up by default
 (setq org-startup-truncated nil) ;don't overwrite word wrap setting, tables be damned
-
-(add-hook 'org-mode-hook 'org-indent-mode)
+(add-hook 'org-mode-hook 'org-indent-mode) ;indentation for org sections etc
+(setq org-return-follows-link t) ;when in org-mode, hit RET to follow a link instead of C-c C-o
 
 ;;beacon-mode
 
