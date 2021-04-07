@@ -18,7 +18,7 @@
    '("d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" default))
  '(display-line-numbers t)
  '(package-selected-packages
-   '(zetteldeft deft doom-modeline helm buffer-move company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex))
+   '(window-numbering zetteldeft deft doom-modeline helm buffer-move company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex))
  '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -197,7 +197,11 @@
   (add-to-list 'company-backends 'company-auctex))
 
 (defun my/python-mode-hook ()
-  (add-to-list 'company-backends 'company-jedi))
+  (add-to-list 'company-backends 'company-jedi)
+  (lambda ()
+    (setq-default indent-tabs-mode nil)
+    (setq-default tab-width 4)
+    (setq-default python-indent 4)))
 
 (add-hook 'python-mode-hook 'my/python-mode-hook)
 
@@ -221,7 +225,11 @@
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 
+(defun my/web-mode-hook ()
+  (setq web-mode-enable-current-element-highlight t))
 
+
+(add-hook 'web-mode-hook 'my/web-mode-hook)
 
 ;;org-mode configuration
 
@@ -238,6 +246,10 @@
 ;;beacon-mode
 
 (beacon-mode 1) ;enable all the time
+
+;;window-numbering-mode
+
+(window-numbering-mode 1) ;enable all the time
 
 ;;buffer-move keybindings
 
