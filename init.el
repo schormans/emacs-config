@@ -225,6 +225,8 @@
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 
+;;highlight matching tags in web mode
+
 (defun my/web-mode-hook ()
   (setq web-mode-enable-current-element-highlight t))
 
