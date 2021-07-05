@@ -15,7 +15,7 @@
    [default default default italic underline success warning error])
  '(custom-enabled-themes '(doom-gruvbox))
  '(custom-safe-themes
-   '("d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" default))
+   '("6b1abd26f3e38be1823bd151a96117b288062c6cde5253823539c6926c3bb178" "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" default))
  '(display-line-numbers t)
  '(package-selected-packages
    '(window-numbering zetteldeft deft doom-modeline helm buffer-move company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex))
