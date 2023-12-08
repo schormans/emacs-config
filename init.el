@@ -11,22 +11,29 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-engine 'luatex)
+ '(anaconda-mode-localhost-address "localhost")
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(custom-enabled-themes '(doom-gruvbox))
  '(custom-safe-themes
    '("6b1abd26f3e38be1823bd151a96117b288062c6cde5253823539c6926c3bb178" "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" default))
  '(display-line-numbers t)
+ '(markdown-command "pandoc")
+ '(org-image-actual-width nil)
  '(package-selected-packages
-   '(window-numbering zetteldeft deft doom-modeline helm buffer-move company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex))
+   '(elpy window-numbering zetteldeft deft doom-modeline helm buffer-move company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-irony-c-headers company-irony company ein auctex))
+ '(pyvenv-virtualenvwrapper-python "/Users/mjs/.pyenv/versions/3.10.11/bin/python3")
+ '(pyvenv-workon "/Users/mjs/.pyenv/versions/3.10.11")
+ '(tool-bar-mode nil)
  '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :foreground "#e1e1e0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 119 :width normal :family "IBM Plex Mono"))))
- '(italic ((t (:slant italic :weight light)))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "#282828" :foreground "#e1e1e0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "nil" :family "IBM Plex Mono"))))
+ '(italic ((t (:slant italic :weight light))))
+ '(tool-bar ((t (:background "grey75" :foreground "black" :box (:line-width (1 . 1) :style released-button))))))
 
 
 ;;try using a doom theme
@@ -35,6 +42,29 @@
 ;;Manually load my scripts from ~/.emacs.d/.
 
 (add-to-list 'load-path "~/.emacs.d/mylisp/")
+
+
+
+;; Spectre mode stuff
+
+(add-to-list 'load-path "~/.emacs.d/mylisp/emacs-netlist-modes/spectre-mode/")
+
+;; (byte-compile-file "./mylisp/emacs-netlist-modes/spectre-mode/ntlst-aux.elc")
+;; (byte-compile-file "./mylisp/emacs-netlist-modes/spectre-mode/ntlst-section.el")
+;; (byte-compile-file "./mylisp/emacs-netlist-modes/spectre-mode/active-file.el")
+
+(load "ntlst-aux.elc")
+(load "ntlst-section.elc")
+;; (load "active-file.elc")
+
+(load "spectre-mode.elc")
+
+(autoload 'spectre-mode "spectre-mode" "Spectre Editing Mode" t)
+(setq auto-mode-alist (append (list (cons "\\.scs$" 'spectre-mode)
+				       (cons "\\.inp$" 'spectre-mode))
+				 auto-mode-alist))
+
+
 
 ;; SKILL mode
 (load "skill-mode")
@@ -158,10 +188,16 @@
 	     :config
 	     (add-hook 'irony-mode-hook #'irony-eldoc))
 
-(use-package company-jedi
-	     :ensure t
-	     :config
-	     (add-hook 'python-mode-hook 'jedi:setup))
+(use-package elpy
+  :ensure t
+  :init (elpy-enable))
+
+;; (use-package company-jedi
+;; 	     :ensure t
+;; 	     :config
+;; 	     (add-hook 'python-mode-hook 'jedi:setup))
+
+;; (require 'pyenv-mode)
 
 (use-package company-reftex
   :after company
@@ -197,12 +233,16 @@
   (add-to-list 'company-backends 'company-auctex))
 
 (defun my/python-mode-hook ()
-  (add-to-list 'company-backends 'company-jedi)
+  ;; (add-to-list 'company-backends 'company-jedi)
+  ;; (add-to-list 'company-backends 'company-anaconda)
+  ;; (pyenv-mode)
   (lambda ()
     (setq-default indent-tabs-mode nil)
     (setq-default tab-width 4)
     (setq-default python-indent 4)))
 
+;; (add-hook 'python-mode-hook 'anaconda-mode)
+;; (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 (add-hook 'python-mode-hook 'my/python-mode-hook)
 
 
@@ -240,10 +280,16 @@
 (define-key global-map "\C-ca" 'org-agenda)
 
 (setq org-log-done t)
-(setq org-startup-folded t) ;fold everything up by default
+(setq org-startup-folded nil) ;don't fold everything up by default
 (setq org-startup-truncated nil) ;don't overwrite word wrap setting, tables be damned
 (add-hook 'org-mode-hook 'org-indent-mode) ;indentation for org sections etc
 (setq org-return-follows-link t) ;when in org-mode, hit RET to follow a link instead of C-c C-o
+
+(eval-after-load "org"
+  '(require 'ox-md nil t))
+
+(eval-after-load "company"
+  '(add-to-list 'company-backends 'company-anaconda))
 
 ;;beacon-mode
 
@@ -252,6 +298,16 @@
 ;;window-numbering-mode
 
 (window-numbering-mode 1) ;enable all the time
+
+
+;; override inane apple defaults for home and end
+(global-set-key (kbd "<home>") 'beginning-of-line)
+(global-set-key (kbd "<end>") 'end-of-line)
+
+
+;; Fix company-dabbrev lowercase meme?
+(setq company-dabbrev-downcase nil)
+(setq company-dabbrev-ignore-case nil)
 
 ;;buffer-move keybindings
 
@@ -262,3 +318,4 @@
 ;; (global-set-key (kbd "<C-S-left>")  'buf-move-left)
 ;; (global-set-key (kbd "<C-S-right>") 'buf-move-right)
 
+(require 'tramp)
