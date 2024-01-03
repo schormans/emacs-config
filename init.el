@@ -15,10 +15,11 @@
    [default default default italic underline success warning error])
  '(custom-enabled-themes '(doom-gruvbox))
  '(custom-safe-themes
-   '("6b1abd26f3e38be1823bd151a96117b288062c6cde5253823539c6926c3bb178" "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" default))
+   '("e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "6b1abd26f3e38be1823bd151a96117b288062c6cde5253823539c6926c3bb178" "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" default))
  '(display-line-numbers t)
  '(package-selected-packages
-   '(window-numbering zetteldeft deft doom-modeline helm buffer-move company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex))
+   '(elpy window-numbering zetteldeft deft doom-modeline helm buffer-move company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-jedi company-irony-c-headers company-irony company ein auctex))
+ '(python-environment-directory "~/ownCloud/python")
  '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -84,6 +85,7 @@
 ;; M-x all-the-icons-install-fonts
 ;;to ensure that the fonts that are required are downloaded and installed
 (use-package all-the-icons)
+(use-package nerd-icons)
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1))
@@ -93,7 +95,7 @@
 
 (use-package helm
   :init
-    (require 'helm-config)
+    ;; (require 'helm-config)
     (setq helm-split-window-in-side-p t
           helm-move-to-line-cycle-in-source t)
   :config 
@@ -158,10 +160,16 @@
 	     :config
 	     (add-hook 'irony-mode-hook #'irony-eldoc))
 
-(use-package company-jedi
-	     :ensure t
-	     :config
-	     (add-hook 'python-mode-hook 'jedi:setup))
+(use-package elpy
+  :ensure t
+  :init (elpy-enable))
+
+;; (use-package company-jedi
+;; 	     :ensure t
+;; 	     :config
+;; 	     (add-hook 'python-mode-hook 'jedi:setup))
+
+;; (require 'pyenv-mode)
 
 (use-package company-reftex
   :after company
@@ -197,7 +205,9 @@
   (add-to-list 'company-backends 'company-auctex))
 
 (defun my/python-mode-hook ()
-  (add-to-list 'company-backends 'company-jedi)
+  ;; (add-to-list 'company-backends 'company-jedi)
+  ;; (add-to-list 'company-backends 'company-anaconda)
+  ;; (pyenv-mode)
   (lambda ()
     (setq-default indent-tabs-mode nil)
     (setq-default tab-width 4)
@@ -245,6 +255,12 @@
 (add-hook 'org-mode-hook 'org-indent-mode) ;indentation for org sections etc
 (setq org-return-follows-link t) ;when in org-mode, hit RET to follow a link instead of C-c C-o
 
+(eval-after-load "org"
+  '(require 'ox-md nil t))
+
+(eval-after-load "company"
+  '(add-to-list 'company-backends 'company-anaconda))
+
 ;;beacon-mode
 
 (beacon-mode 1) ;enable all the time
@@ -262,3 +278,4 @@
 ;; (global-set-key (kbd "<C-S-left>")  'buf-move-left)
 ;; (global-set-key (kbd "<C-S-right>") 'buf-move-right)
 
+(require 'tramp)
