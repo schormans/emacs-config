@@ -1,0 +1,3 @@
+[submodule "mylisp/emacs-netlist-modes"]
+	path = mylisp/emacs-netlist-modes
+	url = https://github.com/snmishra/emacs-netlist-modes.git

@@ -16,12 +16,24 @@
    [default default default italic underline success warning error])
  '(custom-enabled-themes '(doom-gruvbox))
  '(custom-safe-themes
-   '("f1e8339b04aef8f145dd4782d03499d9d716fdc0361319411ac2efc603249326" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "6b1abd26f3e38be1823bd151a96117b288062c6cde5253823539c6926c3bb178" "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" default))
+   '("f1e8339b04aef8f145dd4782d03499d9d716fdc0361319411ac2efc603249326"
+     "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2"
+     "6b1abd26f3e38be1823bd151a96117b288062c6cde5253823539c6926c3bb178"
+     "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441"
+     default))
  '(display-line-numbers t)
  '(markdown-command "pandoc")
  '(org-image-actual-width nil)
  '(package-selected-packages
-   '(yaml-mode gnu-elpa-keyring-update eglot dumb-jump eldoc window-numbering zetteldeft deft doom-modeline helm buffer-move company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-irony-c-headers company-irony company ein auctex))
+   '(all-the-icons auctex-latexmk auto-complete beacon buffer-move
+		   company-auctex company-irony
+		   company-irony-c-headers company-reftex company-web
+		   doom-modeline doom-themes eglot ein
+		   gnu-elpa-keyring-update helm highlight-indentation
+		   irony-eldoc jedi-core kv markdown-mode memoize
+		   neotree pythonic pyvenv skewer-mode track-changes
+		   use-package web-mode window-numbering yaml-mode
+		   zetteldeft zone-nyan))
  '(pyvenv-virtualenvwrapper-python "/Users/mjs/.pyenv/versions/3.10.11/bin/python3")
  '(pyvenv-workon "/Users/mjs/.pyenv/versions/3.10.11")
  '(tool-bar-mode nil)
@@ -31,7 +43,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "#282828" :foreground "#e1e1e0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "nil" :family "IBM Plex Mono"))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "#282828" :foreground "#e1e1e0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 140 :width normal :foundry "UKWN" :family "EnvyCodeR Nerd Font Mono"))))
  '(italic ((t (:slant italic :weight light))))
  '(tool-bar ((t (:background "grey75" :foreground "black" :box (:line-width (1 . 1) :style released-button))))))
 
@@ -49,13 +61,14 @@
 
 (add-to-list 'load-path "~/.emacs.d/mylisp/emacs-netlist-modes/spectre-mode/")
 
-;; (byte-compile-file "./mylisp/emacs-netlist-modes/spectre-mode/ntlst-aux.elc")
-;; (byte-compile-file "./mylisp/emacs-netlist-modes/spectre-mode/ntlst-section.el")
-;; (byte-compile-file "./mylisp/emacs-netlist-modes/spectre-mode/active-file.el")
+;; (byte-compile-file "~/.emacs.d/mylisp/emacs-netlist-modes/spectre-mode/ntlst-aux.el")
+;; (byte-compile-file "~/.emacs.d/mylisp/emacs-netlist-modes/spectre-mode/ntlst-section.el")
+;; (byte-compile-file "~/.emacs.d/mylisp/emacs-netlist-modes/spectre-mode/active-file.el")
+;; (byte-compile-file "~/.emacs.d/mylisp/emacs-netlist-modes/spectre-mode/spectre-mode.el")
 
 (load "ntlst-aux.elc")
 (load "ntlst-section.elc")
-;; (load "active-file.elc")
+(load "active-file.elc")
 
 (load "spectre-mode.elc")
 
@@ -167,13 +180,13 @@
   :config (zetteldeft-set-classic-keybindings))
 
 
-(use-package dumb-jump
-  :ensure t
-  :config
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-  (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
-  (setq dumb-jump-force-searcher 'ag)
-  (setq dumb-jump-prefer-searcher 'ag))
+;; (use-package dumb-jump
+;;   :ensure t
+;;   :config
+;;   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+;;   (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+;;   (setq dumb-jump-force-searcher 'ag)
+;;   (setq dumb-jump-prefer-searcher 'ag))
 
 ;;company autocomplete settings
 ;much of this is copied from cestlaz.github.io
