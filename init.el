@@ -16,12 +16,12 @@
    [default default default italic underline success warning error])
  '(custom-enabled-themes '(doom-gruvbox))
  '(custom-safe-themes
-   '("6b1abd26f3e38be1823bd151a96117b288062c6cde5253823539c6926c3bb178" "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" default))
+   '("f1e8339b04aef8f145dd4782d03499d9d716fdc0361319411ac2efc603249326" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "6b1abd26f3e38be1823bd151a96117b288062c6cde5253823539c6926c3bb178" "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" default))
  '(display-line-numbers t)
  '(markdown-command "pandoc")
  '(org-image-actual-width nil)
  '(package-selected-packages
-   '(elpy window-numbering zetteldeft deft doom-modeline helm buffer-move company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-irony-c-headers company-irony company ein auctex))
+   '(yaml-mode gnu-elpa-keyring-update eglot dumb-jump eldoc window-numbering zetteldeft deft doom-modeline helm buffer-move company-web web-mode beacon zone-nyan company-auctex doom-themes irony-eldoc company-reftex company-irony-c-headers company-irony company ein auctex))
  '(pyvenv-virtualenvwrapper-python "/Users/mjs/.pyenv/versions/3.10.11/bin/python3")
  '(pyvenv-workon "/Users/mjs/.pyenv/versions/3.10.11")
  '(tool-bar-mode nil)
@@ -68,6 +68,12 @@
 
 ;; SKILL mode
 (load "skill-mode")
+(defun my/skill-mode-hook ()
+    (setq-local tab-width 2)
+    (setq-local indent-line-function 'lisp-indent-line))
+
+(add-hook 'skill-mode-hook 'my/skill-mode-hook)
+
 ;;load paren-peek to see matching parentheses offscreen
 					;(load-file "~/.emacs.d/paren-peek.el")
 (load "paren-peek")
@@ -89,14 +95,14 @@
 
 (show-paren-mode 1)
 (setq inhibit-startup-message t)
-(global-unset-key (kbd "C-z")) ;do this to stop me being asshat and trying to undo with wrong keybind
+(global-unset-key (kbd "C-z")) ;do this to stop me trying to undo with wrong keybind
 (setq TeX-save-query nil)
 (delete-selection-mode 1)
 (desktop-save-mode 1)
 (electric-pair-mode 1)
 (setq make-backup-files nil)
 
-;;trying some latex shit
+;;trying some latex
 
 (require 'reftex)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
@@ -123,7 +129,7 @@
 
 (use-package helm
   :init
-    (require 'helm-config)
+    ;; (require 'helm-config)
     (setq helm-split-window-in-side-p t
           helm-move-to-line-cycle-in-source t)
   :config 
@@ -161,6 +167,14 @@
   :config (zetteldeft-set-classic-keybindings))
 
 
+(use-package dumb-jump
+  :ensure t
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+  (setq dumb-jump-force-searcher 'ag)
+  (setq dumb-jump-prefer-searcher 'ag))
+
 ;;company autocomplete settings
 ;much of this is copied from cestlaz.github.io
 
@@ -184,13 +198,14 @@
 	     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
 (use-package irony-eldoc
-	     :ensure t
-	     :config
-	     (add-hook 'irony-mode-hook #'irony-eldoc))
-
-(use-package elpy
   :ensure t
-  :init (elpy-enable))
+  :after eldoc
+  :config
+  (add-hook 'irony-mode-hook #'irony-eldoc))
+
+;; (use-package elpy
+;;   :ensure t
+;;   :init (elpy-enable))
 
 ;; (use-package company-jedi
 ;; 	     :ensure t
@@ -239,7 +254,8 @@
   (lambda ()
     (setq-default indent-tabs-mode nil)
     (setq-default tab-width 4)
-    (setq-default python-indent 4)))
+    (setq-default python-indent 4)
+    (setq-default electric-indent-mode t)))
 
 ;; (add-hook 'python-mode-hook 'anaconda-mode)
 ;; (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
@@ -275,6 +291,14 @@
 
 ;;org-mode configuration
 
+(use-package eglot
+  :ensure t
+  :config
+  (add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
+  :hook
+  ((python-mode . eglot-ensure))
+  )
+
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -288,8 +312,8 @@
 (eval-after-load "org"
   '(require 'ox-md nil t))
 
-(eval-after-load "company"
-  '(add-to-list 'company-backends 'company-anaconda))
+;; (eval-after-load "company"
+;;   '(add-to-list 'company-backends 'company-anaconda))
 
 ;;beacon-mode
 
@@ -300,10 +324,21 @@
 (window-numbering-mode 1) ;enable all the time
 
 
+;;rst-mode fixes
+(defun amw-nl-indent ()
+  (interactive)
+  (newline)
+  (indent-relative-maybe))
+
+(defun my/rst-mode-hook ()
+  (define-key rst-mode-map (kbd "RET") 'amw-nl-indent)
+  (setq-local electric-indent-mode nil))
+
+(add-hook 'rst-mode-hook 'my/rst-mode-hook)
+
 ;; override inane apple defaults for home and end
 (global-set-key (kbd "<home>") 'beginning-of-line)
 (global-set-key (kbd "<end>") 'end-of-line)
-
 
 ;; Fix company-dabbrev lowercase meme?
 (setq company-dabbrev-downcase nil)
